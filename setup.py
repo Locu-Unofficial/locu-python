@@ -1,7 +1,7 @@
 from distutils.core import setup
 setup(
     name = 'locu-python',
-    packages = ['locu'], 
+    packages = ['locu_api'], 
     version = '0.1',
     description = 'Unofficial Locu Python API Wrapper',
     author = 'Kainar Kamalov',
