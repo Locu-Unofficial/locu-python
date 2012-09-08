@@ -1,6 +1,9 @@
 from urllib import urlencode
 
-import simplejson as json
+try:
+    import simplejson as json
+except :
+    import json
 
 from httplib2 import Http
 
