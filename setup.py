@@ -1,6 +1,6 @@
 from distutils.core import setup
 setup(
-    name = 'locu-python',
+    name = 'locu',
     packages = ['locu'], 
     version = '0.1',
     description = 'Unofficial Locu Python API Wrapper',

@@ -12,7 +12,7 @@ from locu.api import VenueApiClient, MenuItemApiClient
 ## Venue API
 
 ```python
-venue_client = VenueApiClient({YOUR_API_KEY})
+venue_client = VenueApiClient(KEY)
 ```
 
 ### Get venues in San Francisco locality
@@ -49,14 +49,13 @@ venue_menus = venue_client.get_menus('715b3fc8c0798faf91ae')
 ```
 
 ## Menu Item API
-
 ```python
-menu_item_client = MenuItemApiClient({YOUR_API_KEY})
-
-menu_items = menu_item_client.search(country = 'USA', name = 'burger', price__gte = 5, price__lt = 7)  
-
-more_menu_items = menu_item_client.search_next(menu_items) 
-
-menu_item_insights = menu_item_client.insight(dimension = 'price', name = 'burger')
+from locu import MenuItemApiClient
+menu_item_client = MenuItemApiClient(KEY)
+menu_items = menu_item_client.search(locality = 'San Francisco', name = 'espresso', price__gte = 6)  
+print menu_items['objects'][0]
 ```
-
+### Menu Item Insight 
+from locu import MenuItemApiClient
+menu_item_client = MenuItemApiClient(KEY)    
+v_c.insight(dimension = 'price', locality = 'San Francisco', name = 'pizza')

@@ -319,11 +319,16 @@ class VenueApiClient(HttpApiClient):
           
 
         """
-        if len(ids) > 5:
-            ids = ids[:5]
+        if isinstance(ids, list):
+            if len(ids) > 5:
+                ids = ids[:5]
+            id_param = ';'.join(ids) + '/'
+        else:
+            ids = str(ids)
+            id_param = ids + '/'
 
-        id_param = ';'.join(ids) + '/'
         header, content = self._http_request(id_param)
+        print content
         resp = json.loads(content)
         if not self._is_http_response_ok(header):
             error = resp.get('error_message', 'Unknown Error')
@@ -538,10 +543,13 @@ class MenuItemApiClient(HttpApiClient):
           
 
         """
-        if len(ids) > 5:
-            ids = ids[:5]
-
-        id_param = ';'.join(ids) + '/'
+        if isinstance(ids, list):
+            if len(ids) > 5:
+                ids = ids[:5]
+            id_param = ';'.join(ids) + '/'
+        else:
+            ids = str(ids)
+            id_param = ids + '/'
 
         header, content = self._http_request(id_param)
         resp = json.loads(content)
