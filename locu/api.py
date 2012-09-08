@@ -62,13 +62,13 @@ class HttpApiClient(object):
     def _is_http_response_ok(self, response):
         return response['status'] == '200' or response['status'] == 200
 
-    def _get_params(self, name = None, category = None, description = None, price = None, \
+    def _get_params(self, name = None, category = None, cuisine = None, description = None, price = None, \
                           price__gt = None, price__gte = None, price__lt = None, price__lte = None, \
                           location = (None, None), radius = None, tl_coord = (None, None), \
                           br_coord = (None, None), country = None, locality = None, \
                           region = None, postal_code = None, street_address = None, last_updated = None, \
                           last_updated__gt = None, last_updated__gte = None, last_updated__lt = None, \
-                          last_updated__lte = None, website_url = None, dimension = None, has_menu = None):
+                          last_updated__lte = None, website_url = None, dimension = None, has_menu = None, open_at = None):
 
         lat, long = location
         tl_lat, tl_long = tl_coord
@@ -78,7 +78,13 @@ class HttpApiClient(object):
         if name:
             params['name'] = name
         if category:
-            params['category'] = category
+            if not isinstance(category, list):
+                raise TypeError('Please provide list of categories as a category parameter')
+            params['category'] = ','.join(category)
+        if cuisine:
+            if not isinstance(cuisine, list):
+                raise TypeError('Please provide list of cuisines as a cuisines parameter')
+            params['cuisine'] = ','.join(cuisine)
         if description:
             params['description'] = description
         if price:
@@ -123,6 +129,8 @@ class HttpApiClient(object):
             params['dimension'] = dimension
         if has_menu != None:
             params['has_menu'] = has_menu
+        if open_at:
+            params['open_at'] = open_at
         return params
 
 
@@ -145,17 +153,21 @@ class VenueApiClient(HttpApiClient):
         super(VenueApiClient, self).__init__(api_key, base_url)
 
 
-    def search(self, location = (None, None), radius = None, tl_coord = (None, None), \
+    def search(self, category = None, cuisine = None, location = (None, None), radius = None, tl_coord = (None, None), \
                    br_coord = (None, None), name = None, country = None, locality = None, \
                    region = None, postal_code = None, street_address = None, last_updated = None, \
                    last_updated__gt = None, last_updated__gte = None, last_updated__lt = None, \
-                   last_updated__lte = None, website_url = None, has_menu = None):
+                   last_updated__lte = None, website_url = None, has_menu = None, open_at = None):
         """
         Locu Venue Search API Call Wrapper
 
         
         Args: 
         *Note that none of the arguments are required
+          category         : List of category types that need to be filtered by: ['restaurant', 'spa', 'beauty salon', 'gym', 'laundry', 'hair care',  'other']
+            type : [string]
+          cuisine          : List of cuisine types that need to be filtered by: ['american', 'italian', ...]
+            type : [string]
           location          : Tuple that consists of (latitude, longtitude) coordinates
             type : tuple(float, float)
           radius            : Radius around the given lat, long
@@ -176,6 +188,8 @@ class VenueApiClient(HttpApiClient):
             type : string
           street_address    : Address
             type : string
+          open_at           : Search for venues open at the specified time
+            type : datetime
           last_updated      : A datetime object that scecifies last time venue was updated (ex. 'last_updated=2012-05-06T12:00:00Z')
             type : datetime
           last_updated__gt  : A datetime object that specifies last time venue updated is greater than a given datetime (ex. 'last_updated__gt=2012-05-06T12:00:00Z')  
@@ -197,11 +211,11 @@ class VenueApiClient(HttpApiClient):
           HttpException with the error message from the server
         """
 
-        params = self._get_params(location = location, radius = radius, tl_coord = tl_coord, \
+        params = self._get_params(category = category, cuisine = cuisine, location = location, radius = radius, tl_coord = tl_coord, \
                                       br_coord = br_coord, name = name, country = country, locality = locality, \
                                       region = region, postal_code = postal_code, street_address = street_address, last_updated = last_updated, \
                                       last_updated__gt = last_updated__gt, last_updated__gte = last_updated__gte, last_updated__lt = last_updated__lt, \
-                                      last_updated__lte = last_updated__lte, website_url = website_url, has_menu = has_menu)
+                                      last_updated__lte = last_updated__lte, website_url = website_url, has_menu = has_menu, open_at = open_at)
 
         return self._create_query('search', params)
 
@@ -228,11 +242,11 @@ class VenueApiClient(HttpApiClient):
             return resp
         return {}
 
-    def insight(self, dimension, location = (None, None), radius = None, tl_coord = (None,  None), \
+    def insight(self, dimension, category = None, cuisine = None, location = (None, None), radius = None, tl_coord = (None,  None), \
                     br_coord = (None, None), name = None, country = None, locality = None, \
                     region = None, postal_code = None, street_address = None, last_updated = None, \
                     last_updated__gt = None, last_updated__gte = None, last_updated__lt = None, \
-                    last_updated__lte = None, website_url = None, has_menu = None):
+                    last_updated__lte = None, website_url = None, has_menu = None, open_at = None):
         """
         Locu Venue Insight API Call Wrapper
 
@@ -241,6 +255,10 @@ class VenueApiClient(HttpApiClient):
           REQUIRED:
             dimension         : get insights for a particular dimension. Possible values = {'locality', 'category', 'cuisine', 'region'} 
           OPTIONAL:
+            category          : List of category types that need to be filtered by: ['restaurant', 'spa', 'beauty salon', 'gym', 'laundry', 'hair care',  'other']
+              type : [string]
+            cuisine          : List of cuisine types that need to be filtered by: ['american', 'italian', ...]
+              type : [string]
             location          : Tuple that consists of (latitude, longtitude) coordinates
               type : tuple(float, float)
             radius            : Radius around the given lat, long
@@ -261,6 +279,8 @@ class VenueApiClient(HttpApiClient):
               type : string
             street_address    : Address
               type : string
+            open_at           : Search for venues open at the specified time
+              type : datetime
             last_updated      : A datetime object that scecifies last time venue was updated (ex. 'last_updated=2012-05-06T12:00:00Z')
               type : datetime
             last_updated__gt  : A datetime object that specifies last time venue updated is greater than a given datetime (ex. 'last_updated__gt=2012-05-06T12:00:00Z')  
@@ -273,9 +293,8 @@ class VenueApiClient(HttpApiClient):
               type : datetime
             website_url       : Filter by the a website url
               type : string
-          has_menu          : Filter venues that have menus in them
-            type : boolean
-
+            has_menu          : Filter venues that have menus in them
+              type : boolean
         Returns:
           A dictionary with a data returned by the server
 
@@ -283,11 +302,11 @@ class VenueApiClient(HttpApiClient):
           HttpException with the error message from the server
         """
 
-        params =  self._get_params(dimension = dimension, location = location, radius = radius, tl_coord = tl_coord, \
+        params =  self._get_params(dimension = dimension, category = category, cuisine = cuisine, location = location, radius = radius, tl_coord = tl_coord, \
                                          br_coord = br_coord, name = name, country = country, locality = locality, \
                                          region = region, postal_code = postal_code, street_address = street_address, last_updated = last_updated, \
                                          last_updated__gt = last_updated__gt, last_updated__gte = last_updated__gte, last_updated__lt = last_updated__lt, \
-                                         last_updated__lte = last_updated__lte, website_url = website_url, has_menu = has_menu)
+                                         last_updated__lte = last_updated__lte, website_url = website_url, has_menu = has_menu, open_at = open_at)
 
         return self._create_query('insight', params)
 
@@ -344,6 +363,8 @@ class MenuItemApiClient(HttpApiClient):
         
         Args: 
         *Note that none of the arguments are required
+          category          : List of category types that need to be filtered by: ['restaurant', 'spa', 'beauty salon', 'gym', 'laundry', 'hair care',  'other']
+            type : [string]
           location          : Tuple that consists of (latitude, longtitude) coordinates
             type : tuple(float, float)
           radius            : Radius around the given lat, long
@@ -377,8 +398,6 @@ class MenuItemApiClient(HttpApiClient):
           website_url       : Filter by the a website url
             type : string
           description       : Filter by description of the menu item
-            type : string
-          category          : Filter by the  category type
             type : string
           price             : get menu items with a particular price value
             type : float
@@ -447,6 +466,8 @@ class MenuItemApiClient(HttpApiClient):
           REQUIRED:
             dimension         : get insights for a particular dimension. Possible values = {'locality', 'region', 'price'}
           OPTIONAL:
+            category          : List of category types that need to be filtered by: ['restaurant', 'spa', 'beauty salon', 'gym', 'laundry', 'hair care',  'other']
+              type : [string]
             location          : Tuple that consists of (latitude, longtitude) coordinates
               type : tuple(float, float)
             radius            : Radius around the given lat, long
@@ -481,8 +502,6 @@ class MenuItemApiClient(HttpApiClient):
               type : string
             description       : Filter by description of the menu item
               type : string
-            category          : Filter by the  category type
-              type : string
             price             : get menu items with a particular price value
               type : float
             price__gt         : get menu items with a value greater than particular
@@ -501,7 +520,7 @@ class MenuItemApiClient(HttpApiClient):
           HttpException with the error message from the server
         """
 
-        params = self._get_params(name = name, description = description, price = price, \
+        params = self._get_params(name = name, category = category, description = description, price = price, \
                                       price__gt = price__gt, price__gte = price__gte, price__lt = price__lt, price__lte = price__lte, \
                                       location = location, radius = radius, tl_coord = tl_coord, \
                                       br_coord = br_coord, country = country, locality = locality, \

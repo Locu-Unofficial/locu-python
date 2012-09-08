@@ -45,7 +45,7 @@ details = venue_client.get_details(['715b3fc8c0798faf91ae', 'a8fbe449987c9e8150c
 
 ### Get menus for a particular venue
 ```python
-venue_menus = venue_client.get_menus('715b3fc8c0798faf91ae')python
+venue_menus = venue_client.get_menus('715b3fc8c0798faf91ae')
 ```
 
 ## Menu Item API
