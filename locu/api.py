@@ -69,9 +69,7 @@ class HttpApiClient(object):
                           price__gt = None, price__gte = None, price__lt = None, price__lte = None, \
                           location = (None, None), radius = None, tl_coord = (None, None), \
                           br_coord = (None, None), country = None, locality = None, \
-                          region = None, postal_code = None, street_address = None, last_updated = None, \
-                          last_updated__gt = None, last_updated__gte = None, last_updated__lt = None, \
-                          last_updated__lte = None, website_url = None, dimension = None, has_menu = None, open_at = None):
+                          region = None, postal_code = None, street_address = None, website_url = None, dimension = None, has_menu = None, open_at = None):
 
         lat, long = location
         tl_lat, tl_long = tl_coord
@@ -116,16 +114,6 @@ class HttpApiClient(object):
             params['postal_code'] = postal_code
         if street_address:
             params['street_address'] = street_address
-        if last_updated:
-            params['last_updated'] = last_updated
-        if last_updated__gt:
-            params['last_updated__gt'] = last_updated__gt
-        if last_updated__gte:
-            params['last_updated__gte'] = last_updated__gte
-        if last_updated__lt:
-            params['last_updated__lt'] = last_updated__lt
-        if last_updated__lte:
-            params['last_updated__lte'] = last_updated__lte
         if website_url:
             params['website_url'] = website_url
         if dimension:
@@ -158,9 +146,8 @@ class VenueApiClient(HttpApiClient):
 
     def search(self, category = None, cuisine = None, location = (None, None), radius = None, tl_coord = (None, None), \
                    br_coord = (None, None), name = None, country = None, locality = None, \
-                   region = None, postal_code = None, street_address = None, last_updated = None, \
-                   last_updated__gt = None, last_updated__gte = None, last_updated__lt = None, \
-                   last_updated__lte = None, website_url = None, has_menu = None, open_at = None):
+                   region = None, postal_code = None, street_address = None,\
+                   website_url = None, has_menu = None, open_at = None):
         """
         Locu Venue Search API Call Wrapper
 
@@ -193,16 +180,6 @@ class VenueApiClient(HttpApiClient):
             type : string
           open_at           : Search for venues open at the specified time
             type : datetime
-          last_updated      : A datetime object that scecifies last time venue was updated (ex. 'last_updated=2012-05-06T12:00:00Z')
-            type : datetime
-          last_updated__gt  : A datetime object that specifies last time venue updated is greater than a given datetime (ex. 'last_updated__gt=2012-05-06T12:00:00Z')  
-            type : datetime
-          last_updated__gte : A datetime object that specifies last time venue updated is greater than or equal to a given datetime
-            type : datetime
-          last_updated__lt  : A datetime object that specifies last time venue updated is less than a given datetime
-            type : datetime
-          last_updated__lte : A datetime object that specifies last time venue updated is less than or equal to a given datetime
-            type : datetime
           website_url       : Filter by the a website url
             type : string
           has_menu          : Filter venues that have menus in them
@@ -216,9 +193,8 @@ class VenueApiClient(HttpApiClient):
 
         params = self._get_params(category = category, cuisine = cuisine, location = location, radius = radius, tl_coord = tl_coord, \
                                       br_coord = br_coord, name = name, country = country, locality = locality, \
-                                      region = region, postal_code = postal_code, street_address = street_address, last_updated = last_updated, \
-                                      last_updated__gt = last_updated__gt, last_updated__gte = last_updated__gte, last_updated__lt = last_updated__lt, \
-                                      last_updated__lte = last_updated__lte, website_url = website_url, has_menu = has_menu, open_at = open_at)
+                                      region = region, postal_code = postal_code, street_address = street_address, \
+                                      website_url = website_url, has_menu = has_menu, open_at = open_at)
 
         return self._create_query('search', params)
 
@@ -247,9 +223,8 @@ class VenueApiClient(HttpApiClient):
 
     def insight(self, dimension, category = None, cuisine = None, location = (None, None), radius = None, tl_coord = (None,  None), \
                     br_coord = (None, None), name = None, country = None, locality = None, \
-                    region = None, postal_code = None, street_address = None, last_updated = None, \
-                    last_updated__gt = None, last_updated__gte = None, last_updated__lt = None, \
-                    last_updated__lte = None, website_url = None, has_menu = None, open_at = None):
+                    region = None, postal_code = None, street_address = None,\
+                    website_url = None, has_menu = None, open_at = None):
         """
         Locu Venue Insight API Call Wrapper
 
@@ -284,16 +259,6 @@ class VenueApiClient(HttpApiClient):
               type : string
             open_at           : Search for venues open at the specified time
               type : datetime
-            last_updated      : A datetime object that scecifies last time venue was updated (ex. 'last_updated=2012-05-06T12:00:00Z')
-              type : datetime
-            last_updated__gt  : A datetime object that specifies last time venue updated is greater than a given datetime (ex. 'last_updated__gt=2012-05-06T12:00:00Z')  
-              type : datetime
-            last_updated__gte : A datetime object that specifies last time venue updated is greater than or equal to a given datetime
-              type : datetime
-            last_updated__lt  : A datetime object that specifies last time venue updated is less than a given datetime
-              type : datetime
-            last_updated__lte : A datetime object that specifies last time venue updated is less than or equal to a given datetime
-              type : datetime
             website_url       : Filter by the a website url
               type : string
             has_menu          : Filter venues that have menus in them
@@ -307,9 +272,8 @@ class VenueApiClient(HttpApiClient):
 
         params =  self._get_params(dimension = dimension, category = category, cuisine = cuisine, location = location, radius = radius, tl_coord = tl_coord, \
                                          br_coord = br_coord, name = name, country = country, locality = locality, \
-                                         region = region, postal_code = postal_code, street_address = street_address, last_updated = last_updated, \
-                                         last_updated__gt = last_updated__gt, last_updated__gte = last_updated__gte, last_updated__lt = last_updated__lt, \
-                                         last_updated__lte = last_updated__lte, website_url = website_url, has_menu = has_menu, open_at = open_at)
+                                         region = region, postal_code = postal_code, street_address = street_address, \
+                                         website_url = website_url, has_menu = has_menu, open_at = open_at)
 
         return self._create_query('insight', params)
 
@@ -362,9 +326,8 @@ class MenuItemApiClient(HttpApiClient):
                    price__gt = None, price__gte = None, price__lt = None, price__lte = None, \
                    location = (None, None), radius = None, tl_coord = (None, None), \
                    br_coord = (None, None), country = None, locality = None, \
-                   region = None, postal_code = None, street_address = None, last_updated = None, \
-                   last_updated__gt = None, last_updated__gte = None, last_updated__lt = None, \
-                   last_updated__lte = None, website_url = None):
+                   region = None, postal_code = None, street_address = None, \
+                   website_url = None):
         """
         Locu Menu Item Search API Call Wrapper
 
@@ -393,16 +356,6 @@ class MenuItemApiClient(HttpApiClient):
             type : string
           street_address    : Address
             type : string
-          last_updated      : A datetime object that scecifies last time venue was updated (ex. 'last_updated=2012-05-06T12:00:00Z')
-            type : datetime
-          last_updated__gt  : A datetime object that specifies last time venue updated is greater than a given datetime (ex. 'last_updated__gt=2012-05-06T12:00:00Z')  
-            type : datetime
-          last_updated__gte : A datetime object that specifies last time venue updated is greater than or equal to a given datetime
-            type : datetime
-          last_updated__lt  : A datetime object that specifies last time venue updated is less than a given datetime
-            type : datetime
-          last_updated__lte : A datetime object that specifies last time venue updated is less than or equal to a given datetime
-            type : datetime
           website_url       : Filter by the a website url
             type : string
           description       : Filter by description of the menu item
@@ -429,9 +382,8 @@ class MenuItemApiClient(HttpApiClient):
                                        price__gt = price__gt, price__gte = price__gte, price__lt = price__lt, price__lte = price__lte, \
                                        location = location, radius = radius, tl_coord = tl_coord, \
                                        br_coord = br_coord, country = country, locality = locality, \
-                                       region = region, postal_code = postal_code, street_address = street_address, last_updated = last_updated, \
-                                       last_updated__gt = last_updated__gt, last_updated__gte = last_updated__gte, last_updated__lt = last_updated__lt, \
-                                       last_updated__lte = last_updated__lte, website_url = website_url)
+                                       region = region, postal_code = postal_code, street_address = street_address,\
+                                       website_url = website_url)
         return self._create_query('search', params)
 
     def search_next(self, obj):
@@ -463,9 +415,8 @@ class MenuItemApiClient(HttpApiClient):
                    price__gt = None, price__gte = None, price__lt = None, price__lte = None, \
                    location = (None, None), radius = None, tl_coord = (None, None), \
                    br_coord = (None, None), country = None, locality = None, \
-                   region = None, postal_code = None, street_address = None, last_updated = None, \
-                   last_updated__gt = None, last_updated__gte = None, last_updated__lt = None, \
-                   last_updated__lte = None, website_url = None):
+                   region = None, postal_code = None, street_address = None,\
+                   website_url = None):
         """
         Locu Menu Item Insight API Call Wrapper
 
@@ -496,16 +447,6 @@ class MenuItemApiClient(HttpApiClient):
               type : string
             street_address    : Address
               type : string
-            last_updated      : A datetime object that scecifies last time venue was updated (ex. 'last_updated=2012-05-06T12:00:00Z')
-              type : datetime
-            last_updated__gt  : A datetime object that specifies last time venue updated is greater than a given datetime (ex. 'last_updated__gt=2012-05-06T12:00:00Z')  
-              type : datetime
-            last_updated__gte : A datetime object that specifies last time venue updated is greater than or equal to a given datetime
-              type : datetime
-            last_updated__lt  : A datetime object that specifies last time venue updated is less than a given datetime
-              type : datetime
-            last_updated__lte : A datetime object that specifies last time venue updated is less than or equal to a given datetime
-              type : datetime
             website_url       : Filter by the a website url
               type : string
             description       : Filter by description of the menu item
@@ -532,12 +473,11 @@ class MenuItemApiClient(HttpApiClient):
                                       price__gt = price__gt, price__gte = price__gte, price__lt = price__lt, price__lte = price__lte, \
                                       location = location, radius = radius, tl_coord = tl_coord, \
                                       br_coord = br_coord, country = country, locality = locality, \
-                                      region = region, postal_code = postal_code, street_address = street_address, last_updated = last_updated, \
-                                      last_updated__gt = last_updated__gt, last_updated__gte = last_updated__gte, last_updated__lt = last_updated__lt, \
-                                      last_updated__lte = last_updated__lte, website_url = website_url, dimension = dimension)
+                                      region = region, postal_code = postal_code, street_address = street_address,\
+                                      website_url = website_url, dimension = dimension)
         return self._create_query('insight', params)
 
-    def get_details(self, id):
+    def get_details(self, ids):
         """
         Locu MenuItems Details API Call Wrapper
 
