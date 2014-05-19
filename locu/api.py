@@ -316,7 +316,8 @@ class VenueApiClient(HttpApiClient):
 
     def is_open(self,id,time,day):
       """
-        Checks of the venus is open at the time of day given a venue id.
+        Checks of the venue is open at the time of day given a venue id.
+
         
         args:
             id:   string of venue id 
@@ -326,6 +327,13 @@ class VenueApiClient(HttpApiClient):
         returns:
             Bool if there is hours data availble
             None otherwise
+
+        Note:
+          can get the string of the day and time from a time object if desired  
+          by using time.strftime() 
+          ex:
+             day = time.strftime('%A',some_time_object)
+             time = time.strftime('%H:%M:%S',some_time_object)
 
       """
       details = self.get_details(id)
