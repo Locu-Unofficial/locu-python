@@ -314,6 +314,48 @@ class VenueApiClient(HttpApiClient):
                 menus += obj['menus']
         return menus
 
+    def is_open(self,id,time,day):
+      """
+        Checks if the venue is open at the time of day given a venue id.
+
+        
+        args:
+            id:   string of venue id 
+            time: string of the format ex: "12:00:00"
+            day: string of weekday  ex:  "Monday"
+            
+        returns:
+            Bool if there is hours data available
+            None otherwise
+
+        Note:
+          can get the string of the day and time from a time object if desired  
+          by using time.strftime() 
+          ex:
+             day = time.strftime('%A',some_time_object)
+             time = time.strftime('%H:%M:%S',some_time_object)
+
+      """
+      details = self.get_details(id)
+      has_data = False
+
+      for obj in details["objects"]:
+        hours = obj["open_hours"][day]
+        if hours:
+          has_data = True
+          for interval in hours:
+            interval = interval.replace(' ','').split('-')
+            open_time = interval[0]
+            close_time = interval[1]
+            if open_time < time < close_time:
+              return True
+
+
+      if has_data:
+        return False
+      else:
+        return None
+
 ################################################################################    
 
 class MenuItemApiClient(HttpApiClient):
