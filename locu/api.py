@@ -316,7 +316,7 @@ class VenueApiClient(HttpApiClient):
 
     def is_open(self,id,time,day):
       """
-        Checks of the venue is open at the time of day given a venue id.
+        Checks if the venue is open at the time of day given a venue id.
 
         
         args:
@@ -325,7 +325,7 @@ class VenueApiClient(HttpApiClient):
             day: string of weekday  ex:  "Monday"
             
         returns:
-            Bool if there is hours data availble
+            Bool if there is hours data available
             None otherwise
 
         Note:
