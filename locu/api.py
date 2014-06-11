@@ -295,7 +295,6 @@ class VenueApiClient(HttpApiClient):
             id_param = ids + '/'
 
         header, content = self._http_request(id_param)
-        print content
         resp = json.loads(content)
         if not self._is_http_response_ok(header):
             error = resp.get('error_message', 'Unknown Error')
